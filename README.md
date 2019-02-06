@@ -1,5 +1,7 @@
 # Book Search App
 
+#### Done by Seaney Shell and Chad Johnson
+
 Android app that leverages the [OpenLibrary API](https://openlibrary.org/developers/api) to search books and display cover images. This app is to be used as the base app for adding suggested extensions.
 
 ![Imgur](http://i.imgur.com/NJmF42Yl.png)
