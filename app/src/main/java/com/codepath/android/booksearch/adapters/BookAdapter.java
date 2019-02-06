@@ -1,18 +1,19 @@
 package com.codepath.android.booksearch.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.codepath.android.booksearch.GlideApp;
-import com.codepath.android.booksearch.MyAppGlideModule;
 import com.codepath.android.booksearch.R;
+import com.codepath.android.booksearch.activities.BookDetailActivity;
 import com.codepath.android.booksearch.models.Book;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         public ImageView ivCover;
         public TextView tvTitle;
         public TextView tvAuthor;
+        public RelativeLayout RelLayout;
 
         public ViewHolder(View itemView) {
             // Stores the itemView in a public final member variable that can be used
@@ -36,12 +38,15 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             ivCover = (ImageView)itemView.findViewById(R.id.ivBookCover);
             tvTitle = (TextView)itemView.findViewById(R.id.tvTitle);
             tvAuthor = (TextView)itemView.findViewById(R.id.tvAuthor);
+            RelLayout = (RelativeLayout)itemView.findViewById(R.id.rlRow);
+
         }
     }
 
     public BookAdapter(Context context, ArrayList<Book> aBooks) {
         mBooks = aBooks;
         mContext = context;
+
     }
 
     // Usually involves inflating a layout from XML and returning the holder
@@ -65,9 +70,22 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         // Get the data model based on position
         Book book = mBooks.get(position);
 
+
         // Populate data into the template view using the data object
         viewHolder.tvTitle.setText(book.getTitle());
         viewHolder.tvAuthor.setText(book.getAuthor());
+
+        viewHolder.RelLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent i = new Intent(mContext, BookDetailActivity.class);
+
+                // wont work no idea why.
+                //startActivity(i);
+
+            }
+        });
         GlideApp.with(getContext())
                 .load(Uri.parse(book.getCoverUrl()))
                 .placeholder(R.drawable.ic_nocover)

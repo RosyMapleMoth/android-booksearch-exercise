@@ -1,11 +1,17 @@
 package com.codepath.android.booksearch.activities;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import com.codepath.android.booksearch.R;
 import com.codepath.android.booksearch.adapters.BookAdapter;
@@ -33,6 +39,10 @@ public class BookListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_list);
 
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         rvBooks = (RecyclerView) findViewById(R.id.rvBooks);
         abooks = new ArrayList<>();
 
@@ -45,8 +55,12 @@ public class BookListActivity extends AppCompatActivity {
         // Set layout manager to position the items
         rvBooks.setLayoutManager(new LinearLayoutManager(this));
 
-        // Fetch the data remotely
-        fetchBooks("Oscar Wilde");
+    }
+
+
+    private void setUpListeners()
+    {
+
     }
 
     // Executes an API call to the OpenLibrary search endpoint, parses the results
@@ -86,9 +100,45 @@ public class BookListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_book_list, menu);
-        return true;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_book_list, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_settings);
+
+
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchItem.expandActionView();
+        searchView.requestFocus();
+
+        //int searchImgId = android.support.v7.appcompat.R.id.search_button;
+        //ImageView v = (ImageView) searchView.findViewById(searchImgId);
+        //v.setImageResource(R.drawable.search_btn);
+        // Customize searchview text and hint colors
+        int searchEditId = android.support.v7.appcompat.R.id.search_src_text;
+        EditText et = (EditText) searchView.findViewById(searchEditId);
+        et.setTextColor(Color.BLACK);
+        et.setHintTextColor(Color.GREEN);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                fetchBooks(query);
+                searchView.clearFocus();
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+
+
+
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

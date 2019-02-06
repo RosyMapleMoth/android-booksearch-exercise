@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    buildToolsVersion "28.0.3"
 
     defaultConfig {
         applicationId "com.codepath.android.booksearch"
@@ -25,4 +25,5 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
 }
